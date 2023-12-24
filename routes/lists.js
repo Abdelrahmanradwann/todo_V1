@@ -11,11 +11,11 @@ const { json } = require("body-parser");
 router.get("/ToDo",controllers.showList);
 
 // delete all items
-router.get("/delete",controllers.deleteMany)
+router.delete("/delete",controllers.deleteMany)
 
 
 // delete one item
-router.get("/delete/:id",controllers.deleteOne)
+router.delete("/delete/:id",controllers.deleteOne)
 
 // add to list
 router.post("/add",controllers.add)
