@@ -4,7 +4,7 @@ const status = require("../util/status")
 
 exports.showList = async(req,res,next) => {
     try{
-        const lists =  await list.find();
+        const lists =  await list.find({},{"__v":false});
         res.json({status:status.SUCCESS,data:{lists}});
     }
     catch(err){
@@ -23,7 +23,6 @@ exports.deleteMany = async(req,res) => {
     catch(err){
         res.json({status:status.ERROR,data:err.message});
     }
-    // res.render("/ToDo")
 }
 exports.deleteOne = async(req,res) => {
     const id = req.params.id;
@@ -35,7 +34,6 @@ exports.deleteOne = async(req,res) => {
         res.json({status:status.ERROR,data:err.message});
     }
 
-    // res.render("/ToDo")
 }
 
 exports.add = async(req,res) => {
@@ -53,7 +51,6 @@ exports.add = async(req,res) => {
      catch(err){
         res.json({status:status.ERROR,data:err.message});
      }
-    // res.render("/ToDo")
 }
 
 exports.update = async(req,res) => {
@@ -65,7 +62,6 @@ exports.update = async(req,res) => {
     catch(err){
         res.json({status:status.ERROR,data:err.message});
     }
-    // res.render("/ToDo")
 }
 
 exports.search = async(req,res) => {
@@ -73,5 +69,4 @@ exports.search = async(req,res) => {
     console.log(body);
     const todo = await list.findOne({description:body})
     res.status(200).json(todo)
-    // res.render("/ToDo")
 }
