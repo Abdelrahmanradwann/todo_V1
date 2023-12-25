@@ -1,12 +1,12 @@
+require("dotenv").config()
 const mongoose = require("mongoose")
-
 const express = require("express");
 const app = express();
 const path = require('path');
 
 const listRoutes = require("./routes/lists")
 
-const url = "mongodb+srv://boodyahmed:Boody123456777@cluster0.a0vxcji.mongodb.net/codeZone"
+const url = process.env.MONGO_URL
 
 mongoose.connect(url).then(()=>{
     "connected";
@@ -19,7 +19,7 @@ app.use(listRoutes);
 
 
 
-app.listen(4000,()=>{
+app.listen(process.env.PORT ,()=>{
     console.log("here");
 });
  

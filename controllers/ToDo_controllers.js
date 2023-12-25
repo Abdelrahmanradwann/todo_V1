@@ -1,41 +1,70 @@
 const mongoose = require("mongoose")
 const list = require("../model/Todo")
-
+const status = require("../util/status")
 
 exports.showList = async(req,res,next) => {
-    const lists =  await list.find();
-    res.json(lists);
+    try{
+        const lists =  await list.find();
+        res.json({status:status.SUCCESS,data:{lists}});
+    }
+    catch(err){
+        res.json({status:status.ERROR,data:err.message});
+    }
     // res.render("/ToDo")
 };
 
 
 exports.deleteMany = async(req,res) => {
-    const emptyList =  await list.deleteMany()   
-    res.json(emptyList);
+
+    try{
+    const emptyList =  await list.deleteMany()  
+    res.json({status:status.SUCCESS,data:{emptyList}});
+    }
+    catch(err){
+        res.json({status:status.ERROR,data:err.message});
+    }
     // res.render("/ToDo")
 }
 exports.deleteOne = async(req,res) => {
     const id = req.params.id;
-    const lists = await list.deleteOne({_id:id})
-    res.json(lists);
+    try{
+       const lists = await list.deleteOne({_id:id})
+       res.json({status:status.SUCCESS,data:{list}});
+    }
+    catch(err){
+        res.json({status:status.ERROR,data:err.message});
+    }
+
     // res.render("/ToDo")
 }
 
 exports.add = async(req,res) => {
+
     if(!req.body.description){
-        return res.status(400).json("Description shoild not be empty")
+        return res.json({status:status.FAIL,data:"Description is required"});
+
      }
-     const addedList = new list(req.body);
-     const lists = await addedList.save();
-     res.status(201).json(lists);
+
+     try{
+        const addedList = new list(req.body);
+        const lists = await addedList.save();
+        res.json({status:status.SUCCESS,data:list});
+     }
+     catch(err){
+        res.json({status:status.ERROR,data:err.message});
+     }
     // res.render("/ToDo")
 }
 
 exports.update = async(req,res) => {
-    const id = req.params.id;
-    console.log(req.body)
-    const updated = await list.updateOne({_id:id},{$set:{...req.body}})
-    res.status(200).json(updated)
+    try{
+       const id = req.params.id;
+       const updated = await list.updateOne({_id:id},{$set:{...req.body}})
+       res.json({status:status.ERROR,data:{updated}});
+    }
+    catch(err){
+        res.json({status:status.ERROR,data:err.message});
+    }
     // res.render("/ToDo")
 }
 
